@@ -29,26 +29,36 @@
 
       maplibregl.addProtocol("gpx", VectorTextProtocol.VectorTextProtocol);
 
-      map.on("load", () => {
-        const GPX_FILE_PATH = "../assets/my_track.gpx";
-        const gpxSourceName = "My Track";
-        const gpxLink = `gpx://${GPX_FILE_PATH}`;
+      map.on("load", async () => {
+        try {
+          const response = await fetch("/api/gpx");
+          const gpxFiles = await response.json();
 
-        map.addSource(gpxSourceName, {
-          type: "geojson",
-          data: gpxLink,
-        });
+          gpxFiles.forEach((file, index) => {
+            const sourceName = file;
+            const link = `gpx://${file}`;
 
-        map.addLayer({
-          id: `${gpxSourceName}-line`,
-          type: "line",
-          source: gpxSourceName,
-          paint: {
-            "line-opacity": 1,
-            "line-color": "red",
-            "line-width": 3,
-          },
-        });
+            map.addSource(sourceName, {
+              type: "geojson",
+              data: link,
+            });
+
+            map.addLayer({
+              id: `${sourceName}-line`,
+              type: "line",
+              source: sourceName,
+              paint: {
+                "line-opacity": 0.6,
+                "line-color": "red",
+                "line-width": 2,
+              },
+            });
+          });
+
+          console.log(`Loaded ${gpxFiles.length} GPX tracks`);
+        } catch (error) {
+          console.error("Error loading GPX files:", error);
+        }
       });
     </script>
   </body>
