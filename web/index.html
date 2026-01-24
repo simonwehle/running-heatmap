@@ -2,6 +2,7 @@
 <html>
   <head>
     <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
+    <script src="https://loc8.us/maplibre-gl-vector-text-protocol/dist/maplibre-gl-vector-text-protocol.js"></script>
     <link
       href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css"
       rel="stylesheet"
@@ -20,9 +21,34 @@
     <script>
       const map = new maplibregl.Map({
         container: "map",
-        style: "https://demotiles.maplibre.org/style.json",
+        style:
+          window.MAPLIBRE_STYLE || "https://demotiles.maplibre.org/style.json",
         center: [0, 0],
         zoom: 2,
+      });
+
+      maplibregl.addProtocol("gpx", VectorTextProtocol.VectorTextProtocol);
+
+      map.on("load", () => {
+        const GPX_FILE_PATH = "../assets/my_track.gpx";
+        const gpxSourceName = "My Track";
+        const gpxLink = `gpx://${GPX_FILE_PATH}`;
+
+        map.addSource(gpxSourceName, {
+          type: "geojson",
+          data: gpxLink,
+        });
+
+        map.addLayer({
+          id: `${gpxSourceName}-line`,
+          type: "line",
+          source: gpxSourceName,
+          paint: {
+            "line-opacity": 1,
+            "line-color": "red",
+            "line-width": 3,
+          },
+        });
       });
     </script>
   </body>
