@@ -30,7 +30,7 @@ func Execute() {
 	http.Handle("/tiles/", http.StripPrefix("/tiles/", http.FileServer(http.Dir("./tiles"))))
 	http.HandleFunc("/api/gpx", files.ListGPXFiles)
 	http.HandleFunc("/api/heatmap", tiles.GetHeatmapGeoJSON)
-	addr := ":8080"
+	addr := ":3465"
 	log.Println("Server started at port" + addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

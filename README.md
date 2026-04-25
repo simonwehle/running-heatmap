@@ -1,4 +1,4 @@
-# Running Heatmap
+# Heatmap
 
 Add Files in `/assets` folder
 

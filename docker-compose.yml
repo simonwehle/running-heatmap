@@ -1,0 +1,11 @@
+services:
+  heatmap:
+    image: ghcr.io/simonwehle/heatmap:latest
+    container_name: heatmap
+    restart: unless-stopped
+    environment:
+      MAPLIBRE_STYLE: ${MAPLIBRE_STYLE}
+    ports:
+      - "3465:3465"
+    volumes:
+      - ./assets:/app/assets
