@@ -9,7 +9,7 @@ import (
 	"strings"
 	"sync"
 
-	"running-heatmap/internal/parser"
+	"heatmap/internal/parser"
 )
 
 type GeoJSONFeature struct {
