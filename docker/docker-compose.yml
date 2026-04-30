@@ -8,4 +8,4 @@ services:
     ports:
       - "3465:3465"
     volumes:
-      - ./activities:/app/activities
+      - ./activities:/app/activities:ro
