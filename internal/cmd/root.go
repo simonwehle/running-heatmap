@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"text/template"
 
-	"activity-heatmap/internal/files"
 	"activity-heatmap/internal/style"
 	"activity-heatmap/internal/tiles"
 )
@@ -26,9 +25,7 @@ func Execute() {
 		tmpl.Execute(w, map[string]string{"MapStyle": mapStyle})
 	})
 
-	http.Handle("/activities/", http.StripPrefix("/activities/", http.FileServer(http.Dir("./activities"))))
 	http.Handle("/tiles/", http.StripPrefix("/tiles/", http.FileServer(http.Dir("./tiles"))))
-	http.HandleFunc("/api/gpx", files.ListGPXFiles)
 	http.HandleFunc("/api/heatmap", tiles.GetHeatmapGeoJSON)
 	addr := ":3465"
 	log.Println("Server started at port" + addr)
